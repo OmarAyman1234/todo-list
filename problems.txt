@@ -1,0 +1,7 @@
+- ✅ If there is an error, tie it to the request that caused that error
+- ✅ Unify the time format of logging (GMT)
+- ✅ CRUD for todos (Not tied to a specific user first)
+- Show these CRUDs for client side
+- userSchema
+- Authentication
+- Add the user ID to the reqLog.
