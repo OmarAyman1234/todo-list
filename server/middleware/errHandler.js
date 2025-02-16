@@ -3,7 +3,6 @@ const ErrLog = require("../model/ErrLog");
 const errHandler = async (err, req, res, next) => {
   try {
     await ErrLog.create({
-      date: { type: Date, default: Date.now },
       reqMethod: req.method,
       reqHeadersOrigin: req.headers.origin || "Unknown",
       reqUrl: req.url,
