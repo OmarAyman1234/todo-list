@@ -1,13 +1,9 @@
-const { format } = require("date-fns");
 const ErrLog = require("../model/ErrLog");
 
 const errHandler = async (err, req, res, next) => {
   try {
-    const errDateTime = new Date();
-
     await ErrLog.create({
-      date: format(errDateTime, "yyyy-MM-dd"),
-      time: format(errDateTime, "HH:mm:ss:SSS, OOOO"),
+      date: { type: Date, default: Date.now },
       reqMethod: req.method,
       reqHeadersOrigin: req.headers.origin || "Unknown",
       reqUrl: req.url,

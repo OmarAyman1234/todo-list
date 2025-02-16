@@ -1,4 +1,3 @@
-const { format } = require("date-fns");
 const ReqLog = require("../model/ReqLog");
 
 const reqLogger = async (req, res, next) => {

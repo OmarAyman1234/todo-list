@@ -4,6 +4,9 @@ const express = require("express");
 const app = express();
 const PORT = 4444;
 
+const cors = require("cors");
+const corsOptions = require("./config/corsOptions.js");
+
 const path = require("path");
 
 const reqLogger = require("./middleware/reqLogger");
@@ -15,6 +18,8 @@ const connectDB = require("./config/dbConnection");
 connectDB();
 
 app.use(reqLogger);
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
