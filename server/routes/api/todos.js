@@ -9,7 +9,9 @@ router
 
 router
   .route("/:id")
-  .put(todosController.updateTodo)
+  .put(todosController.renameTodo)
   .delete(todosController.deleteTodo);
+
+router.put("/:id/complete", todosController.completeTodo);
 
 module.exports = router;

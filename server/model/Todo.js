@@ -11,8 +11,9 @@ const todoSchema = new Schema(
 
     isDeleted: { type: Boolean, default: false },
     deletedAt: { type: Date, default: null },
+    completedAt: { type: Date, default: null },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Todo", todoSchema);

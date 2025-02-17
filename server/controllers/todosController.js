@@ -31,28 +31,51 @@ const createTodo = async (req, res) => {
   }
 };
 
-const updateTodo = async (req, res) => {
+const renameTodo = async (req, res) => {
   try {
-    const { todoName, isCompleted } = req.body;
+    const { newName } = req.body;
     const todoId = req.params.id;
 
-    if (!todoName)
-      return res.status(400).json({ message: "Name can't be empty!" });
+    if (!newName)
+      return res.status(400).json({ message: "Todo name can't be empty" });
 
-    const foundTodo = await Todo.findOne({ _id: todoId }).exec();
+    const todoToRename = await Todo.findOne({ _id: todoId }).exec();
+    if (!todoToRename)
+      return res
+        .status(404)
+        .json({ message: `Todo with ID ${todoId} not found` });
 
-    if (!foundTodo) return res.sendStatus(404);
+    const oldTodoName = todoToRename.name;
 
-    if (todoName === foundTodo.name && isCompleted === foundTodo.isCompleted)
-      return res.status(200).json({ message: "No changes detected." });
+    todoToRename.name = newName;
+    todoToRename.lastEditedAt = new Date();
+    await todoToRename.save();
 
-    foundTodo.name = todoName;
-    if (isCompleted !== undefined) foundTodo.isCompleted = isCompleted;
-    foundTodo.lastEditedAt = new Date();
+    return res
+      .status(200)
+      .json({ message: `Changed ${oldTodoName} to ${todoToRename.name}` });
+  } catch (err) {
+    console.error(err);
+    return res.sendStatus(500);
+  }
+};
 
-    await foundTodo.save();
+const completeTodo = async (req, res) => {
+  try {
+    const todoId = req.params.id;
 
-    return res.status(200).json({ message: `Todo ${todoId} edited!` });
+    if (!todoId)
+      return res.status(400).json({ message: "Todo ID not provided" });
+
+    const todoToComplete = await Todo.findOne({ _id: todoId }).exec();
+    if (!todoToComplete)
+      return res.status(404).json({ message: "Todo was not found" });
+
+    todoToComplete.isCompleted = true;
+    todoToComplete.completedAt = new Date();
+    await todoToComplete.save();
+
+    return res.json({ message: `Todo ${todoId} completed!` });
   } catch (err) {
     console.error(err);
     return res.sendStatus(500);
@@ -80,6 +103,7 @@ const deleteTodo = async (req, res) => {
 module.exports = {
   getAllTodos,
   createTodo,
-  updateTodo,
+  renameTodo,
+  completeTodo,
   deleteTodo,
 };
