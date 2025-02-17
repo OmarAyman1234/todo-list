@@ -6,7 +6,7 @@ function UnfinishedTodo(props) {
         <div className="flex flex-col justify-center">
           <p className="my-2 pl-2 font-semibold">{props.name}</p>
           <p className="my-2 pl-2 text-sm">
-            Created: {format(props.creationDate, "E, LLL d, Y HH:mm:ss")}
+            Created: {format(props.creationDate, "E, LLL d, y hh:mm:ss a")}
           </p>
         </div>
 

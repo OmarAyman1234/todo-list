@@ -1,13 +1,19 @@
 import FinishedTodo from "./FinishedTodo";
-function FinishedTodos() {
-  return (
+function FinishedTodos({ todos }) {
+  return todos && todos.length !== 0 ? (
     <section className="mx-auto my-3 w-4/5">
-      <h2 className="text-center text-xl font-bold">Finished (x)</h2>
-      <FinishedTodo name="Backend Todo list" finishDate="yesterday morning" />
-      <FinishedTodo name="Backend Todo list" finishDate="yesterday morning" />
-      <FinishedTodo name="Backend Todo list" finishDate="yesterday morning" />
+      <h2 className="text-center text-xl font-bold">
+        Finished ({todos.length})
+      </h2>
+      {todos.map((todo, index) => (
+        <FinishedTodo
+          key={index}
+          name={todo.name}
+          completedAt={todo.completedAt}
+        />
+      ))}
     </section>
-  );
+  ) : null;
 }
 
 export default FinishedTodos;

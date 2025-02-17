@@ -6,19 +6,29 @@ function Todos() {
   const [unfinishedTodos, setUnfinishedTodos] = useState([]);
   const [finishedTodos, setFinishedTodos] = useState([]);
   const [todos, setTodos] = useState([]);
+  const [todosLoaded, setTodosLoaded] = useState(false);
 
   const apiBase = "http://localhost:4444";
 
   async function fetchTodos() {
-    const response = await fetch(apiBase + "/todos");
-    if (response.ok) {
-      const data = await response.json();
+    const res = await fetch(apiBase + "/todos");
+    if (res.status === 204) {
+      setTodos([]);
+      return;
+    }
+    if (res.ok) {
+      const data = await res.json();
       setTodos(data);
     }
   }
 
   useEffect(() => {
-    fetchTodos();
+    async function loadTodos() {
+      await fetchTodos();
+      setTodosLoaded(true);
+    }
+
+    loadTodos();
   }, []);
 
   useEffect(() => {
@@ -28,14 +38,22 @@ function Todos() {
 
   return (
     <>
-      <UnfinishedTodos todos={unfinishedTodos} />
-      <FinishedTodos todos={finishedTodos} />
+      {todosLoaded ? (
+        <>
+          <UnfinishedTodos todos={unfinishedTodos} />
+          <FinishedTodos todos={finishedTodos} />
 
-      {/* If there are no todos */}
-      {unfinishedTodos.length === 0 && finishedTodos.length === 0 ? (
-        <h2>You don't have any todos</h2>
+          {/* If there are no todos */}
+          {unfinishedTodos.length === 0 && finishedTodos.length === 0 ? (
+            <h2 className="mt-6 text-center font-bold">
+              You don't have any todos
+            </h2>
+          ) : (
+            ""
+          )}
+        </>
       ) : (
-        ""
+        <h2 className="mt-6 text-center font-bold">Loading todos ...</h2>
       )}
     </>
   );
