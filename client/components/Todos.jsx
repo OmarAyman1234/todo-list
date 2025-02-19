@@ -1,40 +1,10 @@
 import { useState, useEffect } from "react";
 import UnfinishedTodos from "./UnfinishedTodos";
 import FinishedTodos from "./FinishedTodos";
+import { useTodo } from "../context/TodoContext";
 
 function Todos() {
-  const [unfinishedTodos, setUnfinishedTodos] = useState([]);
-  const [finishedTodos, setFinishedTodos] = useState([]);
-  const [todos, setTodos] = useState([]);
-  const [todosLoaded, setTodosLoaded] = useState(false);
-
-  const apiBase = "http://localhost:4444";
-
-  async function fetchTodos() {
-    const res = await fetch(apiBase + "/todos");
-    if (res.status === 204) {
-      setTodos([]);
-      return;
-    }
-    if (res.ok) {
-      const data = await res.json();
-      setTodos(data);
-    }
-  }
-
-  useEffect(() => {
-    async function loadTodos() {
-      await fetchTodos();
-      setTodosLoaded(true);
-    }
-
-    loadTodos();
-  }, []);
-
-  useEffect(() => {
-    setUnfinishedTodos(todos.filter((todo) => !todo.isCompleted));
-    setFinishedTodos(todos.filter((todo) => todo.isCompleted));
-  }, [todos]);
+  const { unfinishedTodos, finishedTodos, todosLoaded } = useTodo();
 
   return (
     <>
