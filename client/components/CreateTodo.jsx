@@ -17,30 +17,22 @@ function CreateTodo() {
 
     setLoading(true);
 
-    async function handleCreatingTodo() {
-      try {
-        const createdTodo = await createTodo(todoName);
+    try {
+      const createdTodo = await createTodo(todoName);
 
-        if (!createdTodo) {
-          throw new Error("Failed to create.");
-        }
+      if (!createdTodo) {
+        throw new Error("Failed to create.");
+      }
 
-        setTodoName("");
-        setTodos((prev) => [...prev, createdTodo]);
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-        throw err; /* Throw the error to the toast.
+      setTodoName("");
+      setTodos((prev) => [...prev, createdTodo]);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      throw err; /* Throw the error to the toast.
          (Note that error may come from createTodo() or handleCreatingTodo()).
         */
-      }
     }
-
-    toast.promise(handleCreatingTodo(), {
-      loading: "Creating ...",
-      success: "Created!",
-      error: (err) => `${err.message}`,
-    });
   }
 
   return (
@@ -53,7 +45,19 @@ function CreateTodo() {
           onChange={handleInputChange}
         />
         <button
-          onClick={addNewTodo}
+          onClick={() => {
+            if (todoName === "") {
+              toast.error("Todo name cannot be empty!");
+              setLoading(false);
+              return;
+            }
+
+            toast.promise(addNewTodo, {
+              loading: "Creating ...",
+              success: "Created!",
+              error: (err) => `${err.message}`,
+            });
+          }}
           className={`${loading ? "pointer-events-none bg-gray-600 opacity-70 grayscale" : ""} mr-1 cursor-pointer rounded-md border-2 border-white bg-blue-500 px-2 py-1 text-white duration-150 hover:bg-blue-600 focus:outline-none`}
         >
           Create
