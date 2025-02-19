@@ -6,14 +6,12 @@ function UnfinishedTodos({ unfinishedTodos }) {
       <h2 className="text-center text-xl font-bold">
         Unfinished ({unfinishedTodos.length})
       </h2>
-      {/* <div className="flex flex-col-reverse"> */}
       {unfinishedTodos
         .slice()
         .reverse()
         .map((todo) => (
           <UnfinishedTodo key={todo._id} todo={todo} />
         ))}
-      {/* </div> */}
     </section>
   ) : null;
 }
