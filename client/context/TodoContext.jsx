@@ -8,7 +8,7 @@ export function TodoProvider({ children }) {
   const [todos, setTodos] = useState([]);
   const [todosLoaded, setTodosLoaded] = useState(false);
 
-  const apiBase = "http://localhost:4444";
+  const apiBase = "http://localhost:4444/api";
 
   async function fetchTodos() {
     const res = await fetch(apiBase + "/todos");
