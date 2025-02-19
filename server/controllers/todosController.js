@@ -47,6 +47,8 @@ const renameTodo = async (req, res) => {
 
     const oldTodoName = todoToRename.name;
 
+    if (oldTodoName === newName) return res.sendStatus(204);
+
     todoToRename.name = newName;
     todoToRename.lastEditedAt = new Date();
     await todoToRename.save();
