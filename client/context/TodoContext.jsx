@@ -31,6 +31,10 @@ export function TodoProvider({ children }) {
       body: JSON.stringify({ todoName: todoName }),
     });
 
+    if (res.status === 400) {
+      throw new Error("Todo name cannot be empty!");
+    }
+
     const data = await res.json();
     return data;
   }
