@@ -10,7 +10,7 @@ function Todos() {
     <>
       {todosLoaded ? (
         <>
-          <UnfinishedTodos todos={unfinishedTodos} />
+          <UnfinishedTodos unfinishedTodos={unfinishedTodos} />
           <FinishedTodos todos={finishedTodos} />
 
           {/* If there are no todos */}
