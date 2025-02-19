@@ -1,6 +1,8 @@
 const ReqLog = require("../model/ReqLog");
 
 const reqLogger = async (req, res, next) => {
+  if (req.method === "OPTIONS") return next();
+
   try {
     let reqLog = await ReqLog.create({
       method: req.method,
