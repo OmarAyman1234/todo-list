@@ -50,19 +50,21 @@ function UnfinishedTodo({ todo }) {
           {isEditing ? (
             <button
               data-todo-id={todo._id}
-              onClick={(event) =>
-                toast.promise(
-                  handleRenamingDone(
-                    event.currentTarget.dataset.todoId,
-                    todoName,
-                  ),
-                  {
-                    loading: "Renaming...",
-                    success: "Todo renamed.",
-                    error: (err) => `${err.message}`,
-                  },
-                )
-              }
+              onClick={(event) => {
+                const newName = todoName;
+
+                if (oldName === newName) {
+                  setIsEditing(false);
+                  return;
+                }
+
+                const todoId = event.currentTarget.dataset.todoId;
+                toast.promise(handleRenamingDone(todoId, newName), {
+                  loading: "Renaming...",
+                  success: <b>Todo renamed.</b>,
+                  error: (err) => <b>{err.message}</b>,
+                });
+              }}
               className="mt-1 mb-1 cursor-pointer rounded-md bg-gray-700 px-2 py-1 text-sm text-white duration-150 hover:bg-gray-800 focus:outline-none"
             >
               Done
