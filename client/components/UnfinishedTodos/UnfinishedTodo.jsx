@@ -58,6 +58,13 @@ function UnfinishedTodo({ todo }) {
                   return;
                 }
 
+                if (newName === "") {
+                  setIsEditing(false);
+                  toast.error("Todo name cannot be empty!");
+                  setTodoName(oldName);
+                  return;
+                }
+
                 const todoId = event.currentTarget.dataset.todoId;
                 toast.promise(handleRenamingDone(todoId, newName), {
                   loading: "Renaming...",
