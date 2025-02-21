@@ -5,13 +5,16 @@ function FinishedTodos({ todos }) {
       <h2 className="text-center text-xl font-bold">
         Finished ({todos.length})
       </h2>
-      {todos.map((todo, index) => (
-        <FinishedTodo
-          key={index}
-          name={todo.name}
-          completedAt={todo.completedAt}
-        />
-      ))}
+      {todos
+        .slice()
+        .reverse()
+        .map((todo) => (
+          <FinishedTodo
+            key={todo._id}
+            name={todo.name}
+            completedAt={todo.completedAt}
+          />
+        ))}
     </section>
   ) : null;
 }
