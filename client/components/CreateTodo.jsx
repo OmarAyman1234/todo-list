@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 function CreateTodo() {
   const [todoName, setTodoName] = useState("");
   const [loading, setLoading] = useState(false);
-  const { createTodo, setTodos } = useTodo();
+  const { createTodo } = useTodo();
 
   function handleInputChange(event) {
     setTodoName(event.target.value);
@@ -18,20 +18,12 @@ function CreateTodo() {
     setLoading(true);
 
     try {
-      const createdTodo = await createTodo(todoName);
-
-      if (!createdTodo) {
-        throw new Error("Failed to create.");
-      }
-
+      await createTodo(todoName);
       setTodoName("");
-      setTodos((prev) => [...prev, createdTodo]);
-      setLoading(false);
     } catch (err) {
+      throw err; // Throw the error to the toast.
+    } finally {
       setLoading(false);
-      throw err; /* Throw the error to the toast.
-         (Note that error may come from createTodo() or handleCreatingTodo()).
-        */
     }
   }
 

@@ -35,8 +35,10 @@ export function TodoProvider({ children }) {
       throw new Error("Todo name cannot be empty!");
     }
 
-    const data = await res.json();
-    return data;
+    const createdTodo = await res.json();
+    if (!createdTodo) throw new Error("Failed to create.");
+
+    setTodos((prev) => [...prev, createdTodo]);
   }
 
   async function renameTodo(todoId, newName) {
