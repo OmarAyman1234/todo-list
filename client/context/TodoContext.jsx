@@ -53,6 +53,27 @@ export function TodoProvider({ children }) {
     if (res.status === 204) return;
   }
 
+  async function completeTodo(todoId) {
+    const res = await fetch(apiBase + `/${todoId}/complete`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
+    });
+
+    if (res.ok) {
+      const completedTodo = await res.json();
+      setTodos(
+        todos.map((todo) => (todo._id === todoId ? completedTodo : todo)),
+      );
+    }
+
+    if (res.status === 400)
+      throw new Error("Todo ID was not provided or not provided correctly.");
+    else if (res.status === 404)
+      throw new Error("Todo was not found at the DB.");
+  }
+
   useEffect(() => {
     async function loadTodos() {
       await fetchTodos();
@@ -75,6 +96,7 @@ export function TodoProvider({ children }) {
     setTodos,
     createTodo,
     renameTodo,
+    completeTodo,
   };
 
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
