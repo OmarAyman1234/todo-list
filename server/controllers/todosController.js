@@ -67,17 +67,22 @@ const completeTodo = async (req, res) => {
     const todoId = req.params.id;
 
     if (!todoId)
-      return res.status(400).json({ message: "Todo ID not provided" });
+      return res.status(400).json({ message: "Todo ID was not provided." });
+
+    if (todoId.startsWith("["))
+      return res.status(400).json({
+        message: "Todo ID was not provided correctly.",
+      });
 
     const todoToComplete = await Todo.findOne({ _id: todoId }).exec();
     if (!todoToComplete)
-      return res.status(404).json({ message: "Todo was not found" });
+      return res.status(404).json({ message: "Todo was not found." });
 
     todoToComplete.isCompleted = true;
     todoToComplete.completedAt = new Date();
     await todoToComplete.save();
 
-    return res.json({ message: `Todo ${todoId} completed!` });
+    return res.json(todoToComplete);
   } catch (err) {
     console.error(err);
     return res.sendStatus(500);
