@@ -74,6 +74,17 @@ export function TodoProvider({ children }) {
       throw new Error("Todo was not found at the DB.");
   }
 
+  async function deleteTodo(todoId) {
+    await fetch(apiBase + `/${todoId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "DELETE",
+    });
+
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== todoId));
+  }
+
   useEffect(() => {
     async function loadTodos() {
       await fetchTodos();
@@ -97,6 +108,7 @@ export function TodoProvider({ children }) {
     createTodo,
     renameTodo,
     completeTodo,
+    deleteTodo,
   };
 
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
