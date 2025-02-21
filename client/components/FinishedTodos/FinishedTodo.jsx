@@ -5,7 +5,7 @@ import { useState } from "react";
 
 function FinishedTodo({ todo }) {
   const { deleteTodo } = useTodo();
-  const [deletingProcess, setDeletingProcess] = useState(false);
+  const [isDeletingProcess, setisDeletingProcess] = useState(false);
   return (
     <>
       <div className="my-2 flex w-full rounded-md border-2 border-black">
@@ -17,14 +17,14 @@ function FinishedTodo({ todo }) {
         </div>
 
         <div className="ml-auto flex flex-col justify-center pr-1">
-          <button className="mb-1 cursor-pointer rounded-md bg-gray-700 px-3 py-1 text-sm text-white opacity-70 duration-150 hover:bg-gray-800 focus:outline-none">
+          <button className="mb-1 cursor-pointer rounded-md bg-cyan-700 px-3 py-1 text-sm text-white opacity-70 duration-150 hover:bg-cyan-800 focus:outline-none">
             Redo
           </button>
           <button
             onClick={() => {
-              if (deletingProcess) return;
+              if (isDeletingProcess) return;
 
-              setDeletingProcess(true);
+              setisDeletingProcess(true);
 
               toast
                 .promise(deleteTodo(todo._id), {
@@ -32,9 +32,9 @@ function FinishedTodo({ todo }) {
                   success: <b>🗑️ Todo deleted.</b>,
                   error: (err) => <b>{err.message}</b>,
                 })
-                .finally(() => setDeletingProcess(false));
+                .finally(() => setisDeletingProcess(false));
             }}
-            className={`${deletingProcess ? "pointer-events-none bg-gray-500 grayscale" : "bg-red-700"} cursor-pointer rounded-md px-6 py-1 text-sm text-white opacity-70 duration-150 hover:bg-red-800 focus:outline-none`}
+            className={`${isDeletingProcess ? "pointer-events-none bg-gray-500 grayscale" : "bg-red-700"} cursor-pointer rounded-md px-6 py-1 text-sm text-white opacity-70 duration-150 hover:bg-red-800 focus:outline-none`}
           >
             Delete
           </button>
