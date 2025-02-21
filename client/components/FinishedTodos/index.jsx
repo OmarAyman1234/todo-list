@@ -9,11 +9,7 @@ function FinishedTodos({ todos }) {
         .slice()
         .reverse()
         .map((todo) => (
-          <FinishedTodo
-            key={todo._id}
-            name={todo.name}
-            completedAt={todo.completedAt}
-          />
+          <FinishedTodo key={todo._id} todo={todo} />
         ))}
     </section>
   ) : null;
