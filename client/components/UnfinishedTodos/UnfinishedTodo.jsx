@@ -8,6 +8,8 @@ function UnfinishedTodo({ todo }) {
   const [isCompletingTodo, setIsCompletingTodo] = useState(false);
   const [todoName, setTodoName] = useState(todo.name);
   const [oldName, setOldName] = useState(todoName);
+  const [deletingProcess, setDeletingProcess] = useState(false);
+
   const { renameTodo, completeTodo, deleteTodo } = useTodo();
 
   function handleEditClick() {
@@ -112,13 +114,19 @@ function UnfinishedTodo({ todo }) {
           </button>
           <button
             onClick={() => {
-              toast.promise(deleteTodo(todo._id), {
-                loading: "Deleting ...",
-                success: <b>Todo deleted.</b>,
-                error: (err) => <b>{err.message}</b>,
-              });
+              if (deletingProcess) return;
+
+              setDeletingProcess(true);
+
+              toast
+                .promise(deleteTodo(todo._id), {
+                  loading: "Deleting ...",
+                  success: <b>Todo deleted.</b>,
+                  error: (err) => <b>{err.message}</b>,
+                })
+                .finally(() => setDeletingProcess(false));
             }}
-            className="mb-1 cursor-pointer rounded-md bg-red-600 px-2 py-1 text-sm text-white duration-150 hover:bg-red-700 focus:outline-none"
+            className={`${deletingProcess ? "pointer-events-none bg-gray-500 opacity-70 grayscale" : ""} mb-1 cursor-pointer rounded-md bg-red-600 px-2 py-1 text-sm text-white duration-150 hover:bg-red-700 focus:outline-none`}
           >
             Delete
           </button>

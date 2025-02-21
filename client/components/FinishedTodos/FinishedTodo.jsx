@@ -1,9 +1,11 @@
 import { format } from "date-fns";
 import { useTodo } from "../../context/TodoContext";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 function FinishedTodo({ todo }) {
   const { deleteTodo } = useTodo();
+  const [deletingProcess, setDeletingProcess] = useState(false);
   return (
     <>
       <div className="my-2 flex w-full rounded-md border-2 border-black">
@@ -20,13 +22,19 @@ function FinishedTodo({ todo }) {
           </button>
           <button
             onClick={() => {
-              toast.promise(deleteTodo(todo._id), {
-                loading: "Deleting ...",
-                success: <b>Todo deleted.</b>,
-                error: (err) => <b>{err.message}</b>,
-              });
+              if (deletingProcess) return;
+
+              setDeletingProcess(true);
+
+              toast
+                .promise(deleteTodo(todo._id), {
+                  loading: "Deleting ...",
+                  success: <b>🗑️ Todo deleted.</b>,
+                  error: (err) => <b>{err.message}</b>,
+                })
+                .finally(() => setDeletingProcess(false));
             }}
-            className="cursor-pointer rounded-md bg-red-700 px-6 py-1 text-sm text-white opacity-70 duration-150 hover:bg-red-800 focus:outline-none"
+            className={`${deletingProcess ? "pointer-events-none bg-gray-500 grayscale" : "bg-red-700"} cursor-pointer rounded-md px-6 py-1 text-sm text-white opacity-70 duration-150 hover:bg-red-800 focus:outline-none`}
           >
             Delete
           </button>
