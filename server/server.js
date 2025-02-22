@@ -7,6 +7,8 @@ const PORT = 4444;
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions.js");
 
+const cookieParser = require("cookie-parser");
+
 const path = require("path");
 
 const reqLogger = require("./middleware/reqLogger");
@@ -26,8 +28,11 @@ app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cookieParser());
+
 app.use("/", require("./routes/root.js"));
 app.use("/register", require("./routes/register.js"));
+app.use("/auth", require("./routes/auth.js"));
 app.use("/api/todos", require("./routes/api/todos.js"));
 
 app.all("*", (req, res) => {
