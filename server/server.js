@@ -27,6 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", require("./routes/root.js"));
+app.use("/register", require("./routes/register.js"));
 app.use("/api/todos", require("./routes/api/todos.js"));
 
 app.all("*", (req, res) => {
