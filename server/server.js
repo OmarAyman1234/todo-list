@@ -14,6 +14,8 @@ const path = require("path");
 const reqLogger = require("./middleware/reqLogger");
 const errHandler = require("./middleware/errHandler");
 
+const verifyJWT = require("./middleware/verifyJWT.js");
+
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConnection");
 
@@ -34,6 +36,8 @@ app.use("/", require("./routes/root.js"));
 app.use("/register", require("./routes/register.js"));
 app.use("/auth", require("./routes/auth.js"));
 app.use("/refresh", require("./routes/refresh.js"));
+
+app.use(verifyJWT);
 app.use("/api/todos", require("./routes/api/todos.js"));
 
 app.all("*", (req, res) => {
