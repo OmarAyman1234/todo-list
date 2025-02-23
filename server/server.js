@@ -33,6 +33,7 @@ app.use(cookieParser());
 app.use("/", require("./routes/root.js"));
 app.use("/register", require("./routes/register.js"));
 app.use("/auth", require("./routes/auth.js"));
+app.use("/refresh", require("./routes/refresh.js"));
 app.use("/api/todos", require("./routes/api/todos.js"));
 
 app.all("*", (req, res) => {
