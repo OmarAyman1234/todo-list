@@ -3,7 +3,12 @@ const { Schema } = mongoose;
 
 const todoSchema = new Schema(
   {
-    userId: { type: String, index: true, required: true },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      index: true,
+      required: true,
+    },
     name: { type: String, required: true }, //todo name
     isCompleted: { type: Boolean, default: false },
 
