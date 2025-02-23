@@ -29,7 +29,19 @@ router.post("/", async (req, res) => {
     );
 
     // Save refreshToken to DB
-    foundUser.refreshToken.push(refreshToken);
+
+    //Keeping only valid tokens and removing the expired ones.
+    const validTokens = foundUser.refreshTokens.filter((token) => {
+      try {
+        jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+        return true;
+      } catch (err) {
+        return false;
+      }
+    });
+    //Assign the valid tokens + the new refresh token.
+    foundUser.refreshTokens = validTokens;
+    foundUser.refreshTokens.push(refreshToken);
     const result = await foundUser.save();
     console.log(result);
 
