@@ -1,5 +1,6 @@
 const Todo = require("../model/Todo");
 
+// save to the todo the userID
 const getAllTodos = async (req, res) => {
   try {
     const todos = await Todo.find({ isDeleted: { $ne: true } }).exec();

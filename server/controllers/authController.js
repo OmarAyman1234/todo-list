@@ -15,13 +15,13 @@ const handleLogin = async (req, res) => {
       return res.status(401).json({ message: "Incorrect password." });
 
     const accessToken = jwt.sign(
-      { username: foundUser.username },
+      { userId: foundUser._id },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
     );
 
     const refreshToken = jwt.sign(
-      { username: foundUser.username },
+      { userId: foundUser._id },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "1d" }
     );
