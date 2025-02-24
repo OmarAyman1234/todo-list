@@ -7,7 +7,7 @@ const verifyJWT = (req, res, next) => {
   const accessToken = authHeader.split(" ")[1];
 
   jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-    if (err) return res.sendStatus(403);
+    if (err) return res.sendStatus(403); // Forbidden, client should request a new access token.
 
     req.userId = decoded.userId;
     next();
