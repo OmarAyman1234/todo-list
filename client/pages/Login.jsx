@@ -21,6 +21,7 @@ function Login() {
         const res = await fetch(serverUrl + "/auth", {
           body: JSON.stringify({ username, password }),
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -31,7 +32,8 @@ function Login() {
           throw new Error(data.message || "Failed to login.");
         }
 
-        navigate("/");
+        // Pass the access token from the data if the response is ok.
+        navigate("/", { state: { accessToken: data.accessToken } });
       } catch (err) {
         throw err;
       }
