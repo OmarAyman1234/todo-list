@@ -7,6 +7,7 @@ const PORT = 4444;
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions.js");
 
+const credentials = require("./middleware/credentials.js");
 const cookieParser = require("cookie-parser");
 
 const path = require("path");
@@ -22,6 +23,15 @@ const connectDB = require("./config/dbConnection");
 connectDB();
 
 app.use(reqLogger);
+
+/* 
+  credentials middleware functionality:,
+  
+  'Access-Control-Allow-Credentials' will be set to true, in order for "credentials: include" to work.
+  It should be before corsOptions as CORS policy was the one blocking 
+  when using "credentials: include" in the first place.
+*/
+app.use(credentials);
 
 app.use(cors(corsOptions));
 
