@@ -40,10 +40,10 @@ function Login() {
     }
   }
   return (
-    <div className="flex h-screen items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-100">
-      <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-lg">
+    <div className="flex h-screen items-center justify-center bg-gradient-to-br from-gray-900 to-purple-900">
+      <div className="w-full max-w-md space-y-8 rounded-xl bg-gray-800 p-8 shadow-lg">
         <div className="text-center">
-          <h1 className="text-3xl font-extrabold text-gray-900">Login</h1>
+          <h1 className="text-3xl font-extrabold text-gray-100">Login</h1>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
@@ -51,7 +51,7 @@ function Login() {
             <div>
               <label
                 htmlFor="username"
-                className="text-sm font-medium text-gray-700"
+                className="text-sm font-medium text-gray-300"
               >
                 Username
               </label>
@@ -62,7 +62,7 @@ function Login() {
                 name="username"
                 type="text"
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3 shadow-sm transition-all"
+                className="mt-1 block w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-3 text-gray-100 placeholder-gray-400 shadow-sm transition-all"
                 placeholder="Enter username"
               />
             </div>
@@ -70,7 +70,7 @@ function Login() {
             <div>
               <label
                 htmlFor="password"
-                className="text-sm font-medium text-gray-700"
+                className="text-sm font-medium text-gray-300"
               >
                 Password
               </label>
@@ -81,7 +81,7 @@ function Login() {
                 name="password"
                 type="password"
                 required
-                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3 shadow-sm transition-all"
+                className="mt-1 block w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-3 text-gray-100 placeholder-gray-400 shadow-sm transition-all"
                 placeholder="Enter password"
               />
             </div>
@@ -97,11 +97,11 @@ function Login() {
           </div>
 
           <div className="text-center text-sm">
-            <p className="text-gray-600">
+            <p className="text-gray-300">
               Don't have an account?{" "}
               <Link
                 to="/register"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
+                className="font-medium text-indigo-400 hover:text-indigo-300"
               >
                 Register
               </Link>
