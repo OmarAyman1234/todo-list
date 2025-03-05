@@ -10,6 +10,7 @@ async function fetchWithAuth(url, options = {}, accessToken) {
     credentials: "include",
   };
 
+  console.log(accessToken);
   let res = await fetch(url, config);
   console.log(res);
 
@@ -29,11 +30,12 @@ async function fetchWithAuth(url, options = {}, accessToken) {
 
     if (refreshResponse.ok) {
       const data = await refreshResponse.json();
-      const accessToken = data.accessToken;
-
+      const newAccessToken = data.accessToken;
+      console.log("new at fetchWithAuth\n " + newAccessToken);
       // Retry original request
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      config.headers.Authorization = `Bearer ${newAccessToken}`;
       res = await fetch(url, config);
+      res.newAccessToken = newAccessToken;
     }
     console.log(res);
   }
