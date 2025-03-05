@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
-
+import toast from "react-hot-toast";
+import { useNavigate, useLocation } from "react-router-dom";
+import fetchWithAuth from "../utils/fetchWithAuth.js";
 const TodoContext = createContext();
 
 export function TodoProvider({ children }) {
@@ -8,33 +10,64 @@ export function TodoProvider({ children }) {
   const [todos, setTodos] = useState([]);
   const [todosLoaded, setTodosLoaded] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [accessToken, setAccessToken] = useState(
+    location.state ? location.state.accessToken : "",
+  );
+
   const apiBase = "http://localhost:4444/api/todos";
 
   async function fetchTodos() {
-    const res = await fetch(apiBase);
-    if (res.status === 204) {
-      setTodos([]);
-      return;
-    }
-    if (res.ok) {
-      const data = await res.json();
-      setTodos(data);
+    try {
+      const res = await fetchWithAuth(apiBase, {}, accessToken);
+
+      if (res.newAccessToken) {
+        setAccessToken(res.newAccessToken);
+      }
+
+      if (res.status === 204) {
+        setTodos([]);
+        return;
+      } else if (res.status === 200) {
+        const data = await res.json();
+        setTodos(data);
+      } else if (res.status === 401) {
+        toast.error("Unauthorized!");
+        navigate("/login");
+        return;
+      }
+
+      console.log(res);
+    } catch (err) {
+      console.log(err);
     }
   }
 
   async function createTodo(todoName) {
-    const res = await fetch(apiBase, {
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetchWithAuth(
+      apiBase,
+      {
+        method: "POST",
+        body: JSON.stringify({ todoName: todoName }),
       },
-      method: "POST",
-      body: JSON.stringify({ todoName: todoName }),
-    });
+      accessToken,
+    );
 
     if (res.status === 400) {
       throw new Error("Todo name cannot be empty!");
     }
 
+    if (res.status === 401) {
+      toast.error("Unauthorized!");
+      navigate("/login");
+      return;
+    }
+
+    if (res.newAccessToken) {
+      setAccessToken(res.newAccessToken);
+    }
+    console.log("From res\n" + res.newAccessToken);
     const createdTodo = await res.json();
     if (!createdTodo) throw new Error("Failed to create.");
 
@@ -111,6 +144,7 @@ export function TodoProvider({ children }) {
     renameTodo,
     completeTodo,
     deleteTodo,
+    setAccessToken,
   };
 
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
