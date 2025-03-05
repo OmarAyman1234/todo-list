@@ -97,12 +97,22 @@ export function TodoProvider({ children }) {
   }
 
   async function completeTodo(todoId) {
-    const res = await fetch(apiBase + `/${todoId}/complete`, {
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetchWithAuth(
+      apiBase + `/${todoId}/complete`,
+      {
+        method: "PUT",
       },
-      method: "PUT",
-    });
+      accessToken,
+    );
+
+    if (res.status === 401) {
+      navigate("/login");
+      throw new Error(res.statusText);
+    }
+
+    if (res.newAccessToken) {
+      setAccessToken(res.newAccessToken);
+    }
 
     if (res.ok) {
       const completedTodo = await res.json();
@@ -118,12 +128,22 @@ export function TodoProvider({ children }) {
   }
 
   async function deleteTodo(todoId) {
-    await fetch(apiBase + `/${todoId}`, {
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetchWithAuth(
+      apiBase + `/${todoId}`,
+      {
+        method: "DELETE",
       },
-      method: "DELETE",
-    });
+      accessToken,
+    );
+
+    if (res.status === 401) {
+      navigate("/login");
+      throw new Error(res.statusText);
+    }
+
+    if (res.newAccessToken) {
+      setAccessToken(res.newAccessToken);
+    }
 
     setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== todoId));
   }
