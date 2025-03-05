@@ -59,9 +59,8 @@ export function TodoProvider({ children }) {
     }
 
     if (res.status === 401) {
-      toast.error("Unauthorized!");
       navigate("/login");
-      return;
+      throw new Error(res.statusText);
     }
 
     if (res.newAccessToken) {
@@ -75,16 +74,25 @@ export function TodoProvider({ children }) {
   }
 
   async function renameTodo(todoId, newName) {
-    const res = await fetch(apiBase + `/${todoId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetchWithAuth(
+      apiBase + `/${todoId}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ newName: newName }),
       },
-      body: JSON.stringify({ newName: newName }),
-    });
+      accessToken,
+    );
     console.log(res);
     if (res.status === 400) throw new Error("To do name cannot be empty!");
 
+    if (res.status === 401) {
+      navigate("/login");
+      throw new Error(res.statusText);
+    }
+
+    if (res.newAccessToken) {
+      setAccessToken(res.newAccessToken);
+    }
     if (res.status === 204) return;
   }
 
