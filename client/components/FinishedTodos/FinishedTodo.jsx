@@ -7,17 +7,18 @@ function FinishedTodo({ todo }) {
   const { createTodo, deleteTodo } = useTodo();
   const [isDeletingProcess, setisDeletingProcess] = useState(false);
   const [isReDoing, setIsReDoing] = useState(false);
+
   return (
-    <>
-      <div className="my-2 flex w-full rounded-md border-2 border-black">
-        <div className="flex flex-col justify-center">
-          <p className="my-2 pl-2 font-semibold">{todo.name}</p>
-          <p className="my-2 pl-2 text-sm">
-            Completed: {format(todo.completedAt, "E, LLL d, y hh:mm:ss a")}
+    <div className="my-3 w-full rounded-lg border border-gray-700 bg-gray-800 p-4 shadow-md transition duration-300 hover:shadow-lg">
+      <div className="flex flex-col md:flex-row md:items-center">
+        <div className="flex-grow">
+          <h3 className="mb-1 text-lg font-semibold text-white">{todo.name}</h3>
+          <p className="text-sm text-gray-400">
+            Completed: {format(todo.completedAt, "E, LLL d, y h:mm a")}
           </p>
         </div>
 
-        <div className="ml-auto flex flex-col justify-center pr-1">
+        <div className="mt-3 flex flex-wrap gap-2 md:mt-0 md:ml-4">
           <button
             onClick={() => {
               if (isReDoing) return;
@@ -30,17 +31,21 @@ function FinishedTodo({ todo }) {
                     await deleteTodo(todo._id);
                   },
                   {
-                    loading: "Re-doing ...",
+                    loading: "Re-doing...",
                     success: <b>Todo re-assigned.</b>,
                     error: (err) => <b>{err.message}</b>,
                   },
                 )
                 .finally(() => setIsReDoing(false));
             }}
-            className={`${isReDoing ? "pointer-events-none bg-gray-500 opacity-70 grayscale" : ""} mb-1 cursor-pointer rounded-md bg-cyan-700 px-3 py-1 text-sm text-white opacity-70 duration-150 hover:bg-cyan-800 focus:outline-none`}
+            disabled={isReDoing}
+            className={`rounded-md bg-cyan-700 px-3 py-2 text-sm font-medium text-white transition hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500 focus:outline-none ${
+              isReDoing ? "cursor-not-allowed opacity-70" : ""
+            }`}
           >
             Redo
           </button>
+
           <button
             onClick={() => {
               if (isDeletingProcess) return;
@@ -49,19 +54,22 @@ function FinishedTodo({ todo }) {
 
               toast
                 .promise(deleteTodo(todo._id), {
-                  loading: "Deleting ...",
+                  loading: "Deleting...",
                   success: <b>🗑️ Todo deleted.</b>,
                   error: (err) => <b>{err.message}</b>,
                 })
                 .finally(() => setisDeletingProcess(false));
             }}
-            className={`${isDeletingProcess ? "pointer-events-none bg-gray-500 grayscale" : "bg-red-700"} cursor-pointer rounded-md px-6 py-1 text-sm text-white opacity-70 duration-150 hover:bg-red-800 focus:outline-none`}
+            disabled={isDeletingProcess}
+            className={`rounded-md bg-red-700 px-3 py-2 text-sm font-medium text-white transition hover:bg-red-600 focus:ring-2 focus:ring-red-500 focus:outline-none ${
+              isDeletingProcess ? "cursor-not-allowed opacity-70" : ""
+            }`}
           >
             Delete
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

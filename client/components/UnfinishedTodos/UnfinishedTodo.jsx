@@ -15,9 +15,11 @@ function UnfinishedTodo({ todo }) {
   function handleEditClick() {
     setIsEditing(true);
   }
+
   function handleEditInputChange(event) {
     setTodoName(event.target.value);
   }
+
   async function handleRenamingDone(todoId, newName) {
     try {
       await renameTodo(todoId, newName);
@@ -42,26 +44,29 @@ function UnfinishedTodo({ todo }) {
       setIsCompletingTodo(false);
     }
   }
+
   return (
-    <>
-      <div className="my-2 flex w-full rounded-md border-2 border-black">
-        <div className="flex flex-col justify-center">
+    <div className="my-3 w-full transform rounded-lg border border-gray-200 bg-white p-4 shadow-md transition duration-300 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800">
+      <div className="flex flex-col md:flex-row md:items-center">
+        <div className="flex-grow">
           {isEditing ? (
             <input
-              className="ml-0.5 rounded-md border-2 border-gray-600 pl-1"
+              className="w-full rounded-md border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
               value={todoName}
               onChange={handleEditInputChange}
+              autoFocus
             />
           ) : (
-            <p className="my-2 pl-2 font-semibold">{todoName}</p>
+            <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+              {todoName}
+            </h3>
           )}
-
-          <p className="my-2 pl-2 text-sm">
-            Created: {format(todo.createdAt, "E, LLL d, y hh:mm:ss a")}
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Created: {format(todo.createdAt, "E, LLL d, y h:mm a")}
           </p>
         </div>
 
-        <div className="ml-auto flex flex-col justify-center pr-1">
+        <div className="mt-3 flex flex-wrap gap-2 md:mt-0 md:ml-4">
           {isEditing ? (
             <button
               data-todo-id={todo._id}
@@ -87,14 +92,14 @@ function UnfinishedTodo({ todo }) {
                   error: (err) => <b>{err.message}</b>,
                 });
               }}
-              className="mt-1 mb-1 cursor-pointer rounded-md bg-gray-700 px-2 py-1 text-sm text-white duration-150 hover:bg-gray-800 focus:outline-none"
+              className="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-blue-500 dark:hover:bg-blue-600"
             >
               Done
             </button>
           ) : (
             <button
               onClick={handleEditClick}
-              className="mt-1 mb-1 cursor-pointer rounded-md bg-gray-700 px-2 py-1 text-sm text-white duration-150 hover:bg-gray-800 focus:outline-none"
+              className="rounded-md bg-gray-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600"
             >
               Edit
             </button>
@@ -103,15 +108,19 @@ function UnfinishedTodo({ todo }) {
           <button
             onClick={() => {
               toast.promise(handleCompletingTodo(todo._id), {
-                loading: "Processing ...",
+                loading: "Processing...",
                 success: <b>Completed!</b>,
                 error: (err) => <b>{err.message}</b>,
               });
             }}
-            className={`${isCompletingTodo ? "pointer-events-none opacity-70 grayscale" : ""} mb-1 cursor-pointer rounded-md bg-green-600 px-2 py-1 text-sm text-white duration-150 hover:bg-green-700 focus:outline-none`}
+            disabled={isCompletingTodo}
+            className={`rounded-md bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-green-500 dark:hover:bg-green-600 ${
+              isCompletingTodo ? "cursor-not-allowed opacity-70" : ""
+            }`}
           >
             Complete
           </button>
+
           <button
             onClick={() => {
               if (isDeletingProcess) return;
@@ -120,19 +129,22 @@ function UnfinishedTodo({ todo }) {
 
               toast
                 .promise(deleteTodo(todo._id), {
-                  loading: "Deleting ...",
+                  loading: "Deleting...",
                   success: <b>🗑️ Todo deleted.</b>,
                   error: (err) => <b>{err.message}</b>,
                 })
                 .finally(() => setIsDeletingProcess(false));
             }}
-            className={`${isDeletingProcess ? "pointer-events-none bg-gray-500 opacity-70 grayscale" : ""} mb-1 cursor-pointer rounded-md bg-red-600 px-2 py-1 text-sm text-white duration-150 hover:bg-red-700 focus:outline-none`}
+            disabled={isDeletingProcess}
+            className={`rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:outline-none dark:bg-red-500 dark:hover:bg-red-600 ${
+              isDeletingProcess ? "cursor-not-allowed opacity-70" : ""
+            }`}
           >
             Delete
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
