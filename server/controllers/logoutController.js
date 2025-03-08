@@ -5,6 +5,8 @@ const handleLogout = async (req, res) => {
 
   const refreshToken = req.cookies.jwt;
 
+  // findOneAndUpdate: If no match, it will do nothing, so no crashing.
+
   await User.findOneAndUpdate(
     { refreshTokens: refreshToken }, // Find user that has this token in their array
     { $pull: { refreshTokens: refreshToken } }, // Remove only this specific token
