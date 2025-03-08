@@ -1,5 +1,6 @@
-async function fetchWithAuth(url, options = {}, accessToken) {
+async function fetchWithAuth(url, options = {}, auth) {
   const serverURL = "http://localhost:4444";
+  const { accessToken, setAccessToken } = auth;
 
   const config = {
     ...options,
@@ -10,9 +11,9 @@ async function fetchWithAuth(url, options = {}, accessToken) {
     credentials: "include",
   };
 
-  console.log(accessToken);
+  // console.log(accessToken);
   let res = await fetch(url, config);
-  console.log(res);
+  // console.log(res);
 
   if (res.status === 403) {
     console.log("Reached 403 fetchWithAuth");
@@ -35,7 +36,9 @@ async function fetchWithAuth(url, options = {}, accessToken) {
       // Retry original request
       config.headers.Authorization = `Bearer ${newAccessToken}`;
       res = await fetch(url, config);
-      res.newAccessToken = newAccessToken;
+
+      setAccessToken(newAccessToken);
+      // res.newAccessToken = newAccessToken;
     }
     console.log(res);
   }

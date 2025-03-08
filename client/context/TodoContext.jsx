@@ -1,7 +1,8 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import fetchWithAuth from "../utils/fetchWithAuth.js";
+import useAuth from "../hooks/useAuth.jsx";
 export const TodoContext = createContext();
 
 export function TodoProvider({ children }) {
@@ -10,21 +11,15 @@ export function TodoProvider({ children }) {
   const [todos, setTodos] = useState([]);
   const [todosLoaded, setTodosLoaded] = useState(false);
 
+  const auth = useAuth();
+
   const navigate = useNavigate();
-  const location = useLocation();
-  const [accessToken, setAccessToken] = useState(
-    location.state ? location.state.accessToken : "",
-  );
 
   const apiBase = "http://localhost:4444/api/todos";
 
   async function fetchTodos() {
     try {
-      const res = await fetchWithAuth(apiBase, {}, accessToken);
-
-      if (res.newAccessToken) {
-        setAccessToken(res.newAccessToken);
-      }
+      const res = await fetchWithAuth(apiBase, {}, auth);
 
       if (res.status === 204) {
         setTodos([]);
@@ -51,7 +46,7 @@ export function TodoProvider({ children }) {
         method: "POST",
         body: JSON.stringify({ todoName: todoName }),
       },
-      accessToken,
+      auth,
     );
 
     if (res.status === 400) {
@@ -63,10 +58,6 @@ export function TodoProvider({ children }) {
       throw new Error(res.statusText);
     }
 
-    if (res.newAccessToken) {
-      setAccessToken(res.newAccessToken);
-    }
-    console.log("From res\n" + res.newAccessToken);
     const createdTodo = await res.json();
     if (!createdTodo) throw new Error("Failed to create.");
 
@@ -80,7 +71,7 @@ export function TodoProvider({ children }) {
         method: "PUT",
         body: JSON.stringify({ newName: newName }),
       },
-      accessToken,
+      auth,
     );
     console.log(res);
     if (res.status === 400) throw new Error("To do name cannot be empty!");
@@ -90,9 +81,6 @@ export function TodoProvider({ children }) {
       throw new Error(res.statusText);
     }
 
-    if (res.newAccessToken) {
-      setAccessToken(res.newAccessToken);
-    }
     if (res.status === 204) return;
   }
 
@@ -102,16 +90,12 @@ export function TodoProvider({ children }) {
       {
         method: "PUT",
       },
-      accessToken,
+      auth,
     );
 
     if (res.status === 401) {
       navigate("/login");
       throw new Error(res.statusText);
-    }
-
-    if (res.newAccessToken) {
-      setAccessToken(res.newAccessToken);
     }
 
     if (res.ok) {
@@ -133,16 +117,12 @@ export function TodoProvider({ children }) {
       {
         method: "DELETE",
       },
-      accessToken,
+      auth,
     );
 
     if (res.status === 401) {
       navigate("/login");
       throw new Error(res.statusText);
-    }
-
-    if (res.newAccessToken) {
-      setAccessToken(res.newAccessToken);
     }
 
     setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== todoId));
@@ -172,7 +152,6 @@ export function TodoProvider({ children }) {
     renameTodo,
     completeTodo,
     deleteTodo,
-    setAccessToken,
   };
 
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
