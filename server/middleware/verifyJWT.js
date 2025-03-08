@@ -2,8 +2,13 @@ const jwt = require("jsonwebtoken");
 
 const verifyJWT = (req, res, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
-  console.log(authHeader + "test");
-  if (!authHeader?.startsWith("Bearer ")) return res.sendStatus(401);
+
+  const normalizedHeader =
+    authHeader.startsWith("Bearer") && authHeader.length === 6 //6 refers to "Bearer" only.
+      ? "Bearer "
+      : authHeader;
+
+  if (!normalizedHeader?.startsWith("Bearer ")) return res.sendStatus(401);
 
   const accessToken = authHeader.split(" ")[1];
 
