@@ -1,6 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import fetchWithAuth from "../utils/fetchWithAuth.js";
 import useAuth from "../hooks/useAuth.jsx";
 import useFetching from "../hooks/useFetching.jsx";
@@ -14,8 +12,6 @@ export function TodoProvider({ children }) {
   const { setIsFetching } = useFetching();
 
   const auth = useAuth();
-
-  const navigate = useNavigate();
 
   const apiBase = "http://localhost:4444/api/todos";
 
@@ -31,8 +27,6 @@ export function TodoProvider({ children }) {
         const data = await res.json();
         setTodos(data);
       } else if (res.status === 401) {
-        toast.error("Unauthorized!");
-        navigate("/login");
         return;
       }
 
@@ -61,8 +55,7 @@ export function TodoProvider({ children }) {
     }
 
     if (res.status === 401) {
-      navigate("/login");
-      throw new Error(res.statusText);
+      throw new Error("Log in to create a todo!");
     }
 
     const createdTodo = await res.json();
@@ -84,7 +77,6 @@ export function TodoProvider({ children }) {
     if (res.status === 400) throw new Error("To do name cannot be empty!");
 
     if (res.status === 401) {
-      navigate("/login");
       throw new Error(res.statusText);
     }
 
@@ -101,7 +93,6 @@ export function TodoProvider({ children }) {
     );
 
     if (res.status === 401) {
-      navigate("/login");
       throw new Error(res.statusText);
     }
 
@@ -128,7 +119,6 @@ export function TodoProvider({ children }) {
     );
 
     if (res.status === 401) {
-      navigate("/login");
       throw new Error(res.statusText);
     }
 
