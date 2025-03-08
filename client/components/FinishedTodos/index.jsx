@@ -12,7 +12,7 @@ function FinishedTodos({ todos }) {
       <div className="space-y-4">
         {todos
           .slice()
-          .reverse()
+          .sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt))
           .map((todo) => (
             <FinishedTodo key={todo._id} todo={todo} />
           ))}
