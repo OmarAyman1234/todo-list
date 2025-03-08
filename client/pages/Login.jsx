@@ -7,11 +7,17 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setAuthUser, setIsLoggedIn, setAccessToken } = useAuth();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const navigate = useNavigate();
   const serverUrl = "http://localhost:4444";
 
   async function handleLogin(event) {
     event.preventDefault();
+
+    // Prevent mutliple log in requests
+    if (isLoggingIn) return;
+
+    setIsLoggingIn(true);
 
     toast.promise(validateData(), {
       loading: "Logging in ...",
@@ -40,6 +46,8 @@ function Login() {
         navigate("/");
       } catch (err) {
         throw err;
+      } finally {
+        setIsLoggingIn(false);
       }
     }
   }
