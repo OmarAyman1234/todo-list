@@ -1,11 +1,12 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const { setAuthUser, setIsLoggedIn, setAccessToken } = useAuth();
   const navigate = useNavigate();
   const serverUrl = "http://localhost:4444";
 
@@ -16,6 +17,7 @@ function Login() {
       loading: "Logging in ...",
       error: (err) => <b>{err.message}</b>,
     });
+
     async function validateData() {
       try {
         const res = await fetch(serverUrl + "/auth", {
@@ -32,8 +34,10 @@ function Login() {
           throw new Error(data.message || "Failed to login.");
         }
 
-        // Pass the access token from the data if the response is ok.
-        navigate("/", { state: { accessToken: data.accessToken } });
+        setIsLoggedIn(true);
+        setAuthUser(data.username);
+        setAccessToken(data.accessToken);
+        navigate("/");
       } catch (err) {
         throw err;
       }
