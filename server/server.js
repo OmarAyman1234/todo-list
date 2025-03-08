@@ -50,6 +50,7 @@ app.use("/logout", require("./routes/logout.js"));
 
 app.use(verifyJWT);
 app.use("/api/todos", require("./routes/api/todos.js"));
+app.use("/api/authUserData", require("./routes/api/authUserData.js"));
 
 app.all("*", (req, res) => {
   res.status(404);
