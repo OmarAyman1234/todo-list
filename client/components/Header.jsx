@@ -62,7 +62,7 @@ function Header() {
 
         setIsLoggedIn(false);
         setAuthUser(null);
-        navigate("/login");
+        navigate("/");
       } catch (err) {
         console.log(err);
       } finally {
