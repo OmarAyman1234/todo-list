@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import Login from "../pages/Login.jsx";
 import { AuthProvider } from "../context/AuthContext.jsx";
 import { FetchingProvider } from "../context/FetchingContext.jsx";
+import FetchingOverlay from "../components/FetchingOverlay.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -27,6 +28,7 @@ createRoot(document.getElementById("root")).render(
     />
     <AuthProvider>
       <FetchingProvider>
+        <FetchingOverlay />
         <RouterProvider router={router} />
       </FetchingProvider>
     </AuthProvider>
