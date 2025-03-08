@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import fetchWithAuth from "../utils/fetchWithAuth.js";
 import useAuth from "../hooks/useAuth.jsx";
+import useFetching from "../hooks/useFetching.jsx";
 export const TodoContext = createContext();
 
 export function TodoProvider({ children }) {
@@ -10,6 +11,7 @@ export function TodoProvider({ children }) {
   const [finishedTodos, setFinishedTodos] = useState([]);
   const [todos, setTodos] = useState([]);
   const [todosLoaded, setTodosLoaded] = useState(false);
+  const { setIsFetching } = useFetching();
 
   const auth = useAuth();
 
@@ -19,6 +21,7 @@ export function TodoProvider({ children }) {
 
   async function fetchTodos() {
     try {
+      setIsFetching(true);
       const res = await fetchWithAuth(apiBase, {}, auth);
 
       if (res.status === 204) {
@@ -36,6 +39,10 @@ export function TodoProvider({ children }) {
       console.log(res);
     } catch (err) {
       console.log(err);
+    } finally {
+      setTimeout(() => {
+        setIsFetching(false);
+      }, 50);
     }
   }
 

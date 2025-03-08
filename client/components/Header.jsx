@@ -3,10 +3,11 @@ import useAuth from "../hooks/useAuth";
 import fetchWithAuth from "../utils/fetchWithAuth";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import useFetching from "../hooks/useFetching";
 
 function Header() {
   const { isLoggedIn, authUser, setIsLoggedIn, setAuthUser } = useAuth();
-
+  const { setIsFetching } = useFetching();
   const auth = useAuth();
 
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ function Header() {
 
   useEffect(() => {
     async function getAuthUserData() {
+      setIsFetching(true);
       try {
         const res = await fetchWithAuth(apiBase + "/authUserData", {}, auth);
         console.log(res);
@@ -28,6 +30,10 @@ function Header() {
         }
       } catch (err) {
         console.log(err);
+      } finally {
+        setTimeout(() => {
+          setIsFetching(false);
+        }, 50);
       }
     }
 

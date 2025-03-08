@@ -8,7 +8,7 @@ function Todos() {
 
   return (
     <>
-      {todosLoaded ? (
+      {todosLoaded && (
         <>
           <UnfinishedTodos unfinishedTodos={unfinishedTodos} />
           <FinishedTodos todos={finishedTodos} />
@@ -22,8 +22,6 @@ function Todos() {
             ""
           )}
         </>
-      ) : (
-        <h2 className="mt-6 text-center font-bold">Loading todos ...</h2>
       )}
     </>
   );
