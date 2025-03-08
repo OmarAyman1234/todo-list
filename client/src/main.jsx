@@ -7,6 +7,7 @@ import Register from "../pages/Register.jsx";
 import NotFoundPage from "../pages/NotFoundPage.jsx";
 import { Toaster } from "react-hot-toast";
 import Login from "../pages/Login.jsx";
+import { AuthProvider } from "../context/AuthContext.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -23,6 +24,8 @@ createRoot(document.getElementById("root")).render(
         style: { backgroundColor: "#333", color: "white" },
       }}
     />
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 );
