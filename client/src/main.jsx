@@ -8,6 +8,7 @@ import NotFoundPage from "../pages/NotFoundPage.jsx";
 import { Toaster } from "react-hot-toast";
 import Login from "../pages/Login.jsx";
 import { AuthProvider } from "../context/AuthContext.jsx";
+import { FetchingProvider } from "../context/FetchingContext.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -25,7 +26,9 @@ createRoot(document.getElementById("root")).render(
       }}
     />
     <AuthProvider>
-      <RouterProvider router={router} />
+      <FetchingProvider>
+        <RouterProvider router={router} />
+      </FetchingProvider>
     </AuthProvider>
   </StrictMode>,
 );
