@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { useState } from "react";
-import { useTodo } from "../../context/TodoContext";
+import useTodo from "../../hooks/useTodo";
 import toast from "react-hot-toast";
 
 function UnfinishedTodo({ todo }) {

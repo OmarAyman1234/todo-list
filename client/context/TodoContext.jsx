@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, useContext } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useLocation } from "react-router-dom";
 import fetchWithAuth from "../utils/fetchWithAuth.js";
-const TodoContext = createContext();
+export const TodoContext = createContext();
 
 export function TodoProvider({ children }) {
   const [unfinishedTodos, setUnfinishedTodos] = useState([]);
@@ -176,11 +176,4 @@ export function TodoProvider({ children }) {
   };
 
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
-}
-
-export function useTodo() {
-  const context = useContext(TodoContext);
-  if (!context) throw new Error("Context was not provided");
-
-  return context;
 }

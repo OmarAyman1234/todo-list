@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import UnfinishedTodos from "./UnfinishedTodos";
 import FinishedTodos from "./FinishedTodos";
-import { useTodo } from "../context/TodoContext";
+import useTodo from "../hooks/useTodo";
 
 function Todos() {
   const { unfinishedTodos, finishedTodos, todosLoaded } = useTodo();
