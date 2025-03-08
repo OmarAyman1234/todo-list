@@ -12,8 +12,8 @@ const errHandler = async (err, req, res, next) => {
       reqLogId: req.id || "",
     });
 
-    console.log(err.message);
-    res.status(500).send(err.message);
+    console.log(err.stack);
+    res.status(500).send(err.stack);
   } catch (error) {
     console.log(error.stack);
   }

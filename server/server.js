@@ -48,9 +48,16 @@ app.use("/auth", require("./routes/auth.js"));
 app.use("/refresh", require("./routes/refresh.js"));
 app.use("/logout", require("./routes/logout.js"));
 
-app.use(verifyJWT);
-app.use("/api/todos", require("./routes/api/todos.js"));
-app.use("/api/authUserData", require("./routes/api/authUserData.js"));
+app.use("/api/todos", verifyJWT, require("./routes/api/todos.js"));
+app.use(
+  "/api/authUserData",
+  verifyJWT,
+  require("./routes/api/authUserData.js")
+);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
+});
 
 app.all("*", (req, res) => {
   res.status(404);
