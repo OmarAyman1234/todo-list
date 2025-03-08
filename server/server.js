@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
-const PORT = 4444;
+const PORT = process.env.PORT || 4444;
 
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions.js");
@@ -35,8 +35,6 @@ app.use(credentials);
 
 app.use(cors(corsOptions));
 
-app.use(express.static(path.join(__dirname, "..", "client", "dist")));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -55,6 +53,7 @@ app.use(
   require("./routes/api/authUserData.js")
 );
 
+app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
 });
