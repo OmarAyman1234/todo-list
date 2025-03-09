@@ -9,7 +9,7 @@ function Login() {
   const { setAuthUser, setIsLoggedIn, setAccessToken } = useAuth();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const navigate = useNavigate();
-  const serverUrl = "http://localhost:4444";
+  const serverUrl = "https://todo-omar-ay.koyeb.app";
 
   async function handleLogin(event) {
     event.preventDefault();

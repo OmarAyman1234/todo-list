@@ -13,7 +13,7 @@ export function TodoProvider({ children }) {
 
   const auth = useAuth();
 
-  const apiBase = "http://localhost:4444/api/todos";
+  const apiBase = "https://todo-omar-ay.koyeb.app/api/todos";
 
   async function fetchTodos() {
     try {

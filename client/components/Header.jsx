@@ -12,8 +12,8 @@ function Header() {
 
   const navigate = useNavigate();
 
-  const serverUrl = "http://localhost:4444";
-  const apiBase = "http://localhost:4444/api";
+  const serverUrl = "https://todo-omar-ay.koyeb.app";
+  const apiBase = "https://todo-omar-ay.koyeb.app/api";
 
   useEffect(() => {
     async function getAuthUserData() {

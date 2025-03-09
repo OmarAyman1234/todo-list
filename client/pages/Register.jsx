@@ -7,7 +7,7 @@ function Register() {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  const serverUrl = "http://localhost:4444";
+  const serverUrl = "https://todo-omar-ay.koyeb.app";
 
   async function handleRegister(event) {
     event.preventDefault();
