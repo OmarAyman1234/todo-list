@@ -43,13 +43,11 @@ router.post("/", async (req, res) => {
       username: username,
       password: hashedPassword,
     });
-    console.log(newUser);
-    return res
-      .status(201)
-      .json({
-        message: `User ${username} created!`,
-        user: { username: username, id: newUser._id },
-      });
+    console.log(newUser.username + " created!");
+    return res.status(201).json({
+      message: `User ${username} created!`,
+      user: { username: username, id: newUser._id },
+    });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
