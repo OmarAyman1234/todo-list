@@ -47,6 +47,7 @@ const handleLogin = async (req, res) => {
       maxAge: 1000 * 60 * 60 * 24,
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
+      sameSite: "none",
     });
 
     return res.json({ accessToken });
