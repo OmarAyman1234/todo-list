@@ -21,7 +21,6 @@ const mongoose = require("mongoose");
 const connectDB = require("./config/dbConnection");
 
 connectDB();
-
 app.use(reqLogger);
 
 /* 
