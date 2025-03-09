@@ -29,10 +29,8 @@ export function TodoProvider({ children }) {
       } else if (res.status === 401) {
         return;
       }
-
-      console.log(res);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
       setTimeout(() => {
         setIsFetching(false);
@@ -73,7 +71,7 @@ export function TodoProvider({ children }) {
       },
       auth,
     );
-    console.log(res);
+
     if (res.status === 400) throw new Error("To do name cannot be empty!");
 
     if (res.status === 401) {

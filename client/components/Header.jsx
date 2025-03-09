@@ -20,7 +20,6 @@ function Header() {
       setIsFetching(true);
       try {
         const res = await fetchWithAuth(apiBase + "/authUserData", {}, auth);
-        console.log(res);
 
         if (res.status !== 403) {
           const data = await res.json();
@@ -29,7 +28,7 @@ function Header() {
           setIsLoggedIn(true);
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
       } finally {
         setTimeout(() => {
           setIsFetching(false);
@@ -64,7 +63,7 @@ function Header() {
         setAuthUser(null);
         navigate("/");
       } catch (err) {
-        console.log(err);
+        console.error(err);
       } finally {
         setIsLoggingOut(false);
       }
