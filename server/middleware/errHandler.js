@@ -6,7 +6,7 @@ const errHandler = async (err, req, res, next) => {
       reqMethod: req.method,
       reqHeadersOrigin: req.headers.origin || "Unknown",
       reqUrl: req.url,
-      reqIp: req.ip,
+      // reqIp: req.ip,
       errName: err.name,
       errMessage: err.message,
       reqLogId: req.id || "",

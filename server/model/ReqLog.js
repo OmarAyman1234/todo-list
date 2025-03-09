@@ -6,7 +6,7 @@ const reqlogsSchema = new Schema({
   method: String,
   headersOrigin: String,
   url: String,
-  ip: String,
+  // ip: String,
   // country: String,
   // city: String,
 });

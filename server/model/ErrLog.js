@@ -6,7 +6,7 @@ const errlogsSchema = new Schema({
   reqMethod: String,
   reqHeadersOrigin: String,
   reqUrl: String,
-  reqIp: String,
+  // reqIp: String,
   errName: String,
   errMessage: String,
   reqLogId: String,

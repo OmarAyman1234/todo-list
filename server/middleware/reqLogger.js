@@ -8,7 +8,7 @@ const reqLogger = async (req, res, next) => {
       method: req.method,
       headersOrigin: req.headers.origin || "Unknown",
       url: req.url,
-      ip: req.ip,
+      // ip: req.ip,
     });
     // save the request's generated ObjectId by MongoDB to use at error handler if there is an error.
     req.id = reqLog._id;
