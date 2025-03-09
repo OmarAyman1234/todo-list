@@ -40,7 +40,7 @@ function FinishedTodo({ todo }) {
             }}
             disabled={isReDoing}
             className={`rounded-md bg-cyan-700 px-3 py-2 text-sm font-medium text-white transition hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500 focus:outline-none ${
-              isReDoing ? "cursor-not-allowed opacity-70" : ""
+              isReDoing ? "cursor-not-allowed opacity-70" : "cursor-pointer"
             }`}
           >
             Redo
@@ -62,7 +62,9 @@ function FinishedTodo({ todo }) {
             }}
             disabled={isDeletingProcess}
             className={`rounded-md bg-red-700 px-3 py-2 text-sm font-medium text-white transition hover:bg-red-600 focus:ring-2 focus:ring-red-500 focus:outline-none ${
-              isDeletingProcess ? "cursor-not-allowed opacity-70" : ""
+              isDeletingProcess
+                ? "cursor-not-allowed opacity-70"
+                : "cursor-pointer"
             }`}
           >
             Delete

@@ -46,22 +46,22 @@ function UnfinishedTodo({ todo }) {
   }
 
   return (
-    <div className="my-3 w-full transform rounded-lg border border-gray-200 bg-white p-4 shadow-md transition duration-300 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800">
+    <div className="my-3 w-full transform rounded-lg border border-gray-700 bg-gray-800 p-4 shadow-md transition duration-300 hover:shadow-lg">
       <div className="flex flex-col md:flex-row md:items-center">
         <div className="flex-grow">
           {isEditing ? (
             <input
-              className="w-full rounded-md border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              className="w-full rounded-md border border-gray-600 bg-gray-700 p-2 text-gray-100 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
               value={todoName}
               onChange={handleEditInputChange}
               autoFocus
             />
           ) : (
-            <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+            <h3 className="mb-1 text-lg font-semibold text-gray-100">
               {todoName}
             </h3>
           )}
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-gray-400">
             Created: {format(todo.createdAt, "E, LLL d, y h:mm a")}
           </p>
         </div>
@@ -92,14 +92,14 @@ function UnfinishedTodo({ todo }) {
                   error: (err) => <b>{err.message}</b>,
                 });
               }}
-              className="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-blue-500 dark:hover:bg-blue-600"
+              className="cursor-pointer rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
               Done
             </button>
           ) : (
             <button
               onClick={handleEditClick}
-              className="rounded-md bg-gray-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600"
+              className="cursor-pointer rounded-md bg-gray-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:outline-none"
             >
               Edit
             </button>
@@ -114,8 +114,10 @@ function UnfinishedTodo({ todo }) {
               });
             }}
             disabled={isCompletingTodo}
-            className={`rounded-md bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-green-500 dark:hover:bg-green-600 ${
-              isCompletingTodo ? "cursor-not-allowed opacity-70" : ""
+            className={`rounded-md bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none ${
+              isCompletingTodo
+                ? "cursor-not-allowed opacity-70"
+                : "cursor-pointer"
             }`}
           >
             Complete
@@ -136,8 +138,10 @@ function UnfinishedTodo({ todo }) {
                 .finally(() => setIsDeletingProcess(false));
             }}
             disabled={isDeletingProcess}
-            className={`rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:outline-none dark:bg-red-500 dark:hover:bg-red-600 ${
-              isDeletingProcess ? "cursor-not-allowed opacity-70" : ""
+            className={`rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:outline-none ${
+              isDeletingProcess
+                ? "cursor-not-allowed opacity-70"
+                : "cursor-pointer"
             }`}
           >
             Delete
