@@ -21,6 +21,10 @@ function Header() {
       try {
         const res = await fetchWithAuth(apiBase + "/authUserData", {}, auth);
 
+        if (res.status === 401) {
+          return;
+        }
+
         if (res.status !== 403) {
           const data = await res.json();
 
