@@ -15,7 +15,7 @@ const handleLogin = async (req, res) => {
       return res.status(401).json({ message: "Incorrect password." });
 
     const accessToken = jwt.sign(
-      { userId: foundUser._id },
+      { userId: foundUser._id, userRoles: foundUser.roles },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
     );
@@ -23,7 +23,7 @@ const handleLogin = async (req, res) => {
     const refreshToken = jwt.sign(
       { userId: foundUser._id },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "7d" }
     );
 
     // Save refreshToken to DB

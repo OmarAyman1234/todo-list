@@ -16,6 +16,7 @@ const verifyJWT = (req, res, next) => {
     if (err) return res.sendStatus(403); // Forbidden, client should request a new access token.
 
     req.userId = decoded.userId;
+    req.userRoles = decoded.userRoles;
     next();
   });
 };
