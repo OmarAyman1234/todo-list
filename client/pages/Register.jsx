@@ -1,13 +1,14 @@
 import { useState, useRef } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import useUrls from "../hooks/useUrls";
 
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  const serverUrl = "https://todo-omar-ay.koyeb.app";
+  const { serverUrl } = useUrls();
 
   async function handleRegister(event) {
     event.preventDefault();

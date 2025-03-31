@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import fetchWithAuth from "../utils/fetchWithAuth.js";
 import useAuth from "../hooks/useAuth.jsx";
 import useFetching from "../hooks/useFetching.jsx";
+import useUrls from "../hooks/useUrls.jsx";
 export const TodoContext = createContext();
 
 export function TodoProvider({ children }) {
@@ -12,8 +13,7 @@ export function TodoProvider({ children }) {
   const { setIsFetching } = useFetching();
 
   const auth = useAuth();
-
-  const apiBase = "https://todo-omar-ay.koyeb.app/api/todos";
+  const { apiBase } = useUrls();
 
   async function fetchTodos() {
     try {

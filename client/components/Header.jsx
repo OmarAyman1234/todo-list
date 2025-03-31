@@ -4,16 +4,16 @@ import fetchWithAuth from "../utils/fetchWithAuth";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useFetching from "../hooks/useFetching";
+import useUrls from "../hooks/useUrls";
 
 function Header() {
   const { isLoggedIn, authUser, setIsLoggedIn, setAuthUser } = useAuth();
   const { setIsFetching } = useFetching();
   const auth = useAuth();
 
-  const navigate = useNavigate();
+  const { serverUrl, apiBase } = useUrls();
 
-  const serverUrl = "https://todo-omar-ay.koyeb.app";
-  const apiBase = "https://todo-omar-ay.koyeb.app/api";
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getAuthUserData() {

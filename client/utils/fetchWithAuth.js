@@ -1,5 +1,7 @@
+import useUrls from "../hooks/useUrls";
+
 async function fetchWithAuth(url, options = {}, auth) {
-  const serverURL = "https://todo-omar-ay.koyeb.app";
+  const { serverUrl } = useUrls();
   const { accessToken, setAccessToken } = auth;
 
   const config = {

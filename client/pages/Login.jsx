@@ -2,6 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import useUrls from "../hooks/useUrls";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -9,7 +10,7 @@ function Login() {
   const { setAuthUser, setIsLoggedIn, setAccessToken } = useAuth();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const navigate = useNavigate();
-  const serverUrl = "https://todo-omar-ay.koyeb.app";
+  const { serverUrl } = useUrls();
 
   async function handleLogin(event) {
     event.preventDefault();
