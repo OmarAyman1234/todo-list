@@ -13,11 +13,18 @@ const handleLogout = async (req, res) => {
     { new: true } // Return the updated document
   ).exec();
 
-  res.clearCookie("jwt", {
+  const cookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "none",
-  });
+  };
+
+  if (process.env.NODE_ENV === "production") {
+    cookieOptions.secure = true;
+    cookieOptions.sameSite = "none";
+  } else {
+    cookieOptions.secure = false;
+    cookieOptions.sameSite = "lax";
+  }
+  res.clearCookie("jwt", cookieOptions);
 
   return res.sendStatus(204);
 };

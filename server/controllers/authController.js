@@ -43,12 +43,19 @@ const handleLogin = async (req, res) => {
     const result = await foundUser.save();
     console.log(result.username + " Logged in!");
 
-    res.cookie("jwt", refreshToken, {
-      maxAge: 1000 * 60 * 60 * 24,
-      secure: process.env.NODE_ENV === "production",
+    const cookieOptions = {
+      maxAge: 7 * 1000 * 60 * 60 * 24,
       httpOnly: true,
-      sameSite: "none",
-    });
+    };
+
+    if (process.env.NODE_ENV === "production") {
+      cookieOptions.secure = true;
+      cookieOptions.sameSite = "none";
+    } else {
+      cookieOptions.secure = false;
+      cookieOptions.sameSite = "lax";
+    }
+    res.cookie("jwt", refreshToken, cookieOptions);
 
     return res.json({ accessToken });
   } catch (err) {
