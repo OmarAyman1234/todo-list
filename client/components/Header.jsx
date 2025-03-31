@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
-// import fetchWithAuth from "../utils/fetchWithAuth";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useFetching from "../hooks/useFetching";
