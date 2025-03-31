@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import fetchWithAuth from "../utils/fetchWithAuth.js";
+// import fetchWithAuth from "../utils/fetchWithAuth.js";
 import useAuth from "../hooks/useAuth.jsx";
 import useFetching from "../hooks/useFetching.jsx";
 import useUrls from "../hooks/useUrls.jsx";
@@ -13,12 +13,13 @@ export function TodoProvider({ children }) {
   const { setIsFetching } = useFetching();
 
   const auth = useAuth();
-  const { apiBase } = useUrls();
+  const { apiBase, fetchWithAuth } = useUrls();
+  const todosApi = apiBase + "/todos";
 
   async function fetchTodos() {
     try {
       setIsFetching(true);
-      const res = await fetchWithAuth(apiBase, {}, auth);
+      const res = await fetchWithAuth(todosApi, {}, auth);
 
       if (res.status === 204) {
         setTodos([]);
@@ -40,7 +41,7 @@ export function TodoProvider({ children }) {
 
   async function createTodo(todoName) {
     const res = await fetchWithAuth(
-      apiBase,
+      todosApi,
       {
         method: "POST",
         body: JSON.stringify({ todoName: todoName }),
@@ -64,7 +65,7 @@ export function TodoProvider({ children }) {
 
   async function renameTodo(todoId, newName) {
     const res = await fetchWithAuth(
-      apiBase + `/${todoId}`,
+      todosApi + `/${todoId}`,
       {
         method: "PUT",
         body: JSON.stringify({ newName: newName }),
@@ -83,7 +84,7 @@ export function TodoProvider({ children }) {
 
   async function completeTodo(todoId) {
     const res = await fetchWithAuth(
-      apiBase + `/${todoId}/complete`,
+      todosApi + `/${todoId}/complete`,
       {
         method: "PUT",
       },
@@ -109,7 +110,7 @@ export function TodoProvider({ children }) {
 
   async function deleteTodo(todoId) {
     const res = await fetchWithAuth(
-      apiBase + `/${todoId}`,
+      todosApi + `/${todoId}`,
       {
         method: "DELETE",
       },

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
-import fetchWithAuth from "../utils/fetchWithAuth";
+// import fetchWithAuth from "../utils/fetchWithAuth";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useFetching from "../hooks/useFetching";
@@ -11,7 +11,7 @@ function Header() {
   const { setIsFetching } = useFetching();
   const auth = useAuth();
 
-  const { serverUrl, apiBase } = useUrls();
+  const { serverUrl, apiBase, fetchWithAuth } = useUrls();
 
   const navigate = useNavigate();
 
@@ -28,6 +28,7 @@ function Header() {
         if (res.status !== 403) {
           const data = await res.json();
 
+          console.log(data.roles);
           setAuthUser(data.username);
           setIsLoggedIn(true);
         }
