@@ -10,11 +10,13 @@ import { AuthProvider } from "../context/AuthContext.jsx";
 import { FetchingProvider } from "../context/FetchingContext.jsx";
 import FetchingOverlay from "../components/FetchingOverlay.jsx";
 import { UrlsProvider } from "../context/UrlsContext.jsx";
+import AdminPanel from "../pages/AdminPanel.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/register", element: <Register /> },
   { path: "/login", element: <Login /> },
+  { path: "/adminPanel", element: <AdminPanel /> },
   { path: "*", element: <NotFoundPage /> },
 ]);
 
