@@ -1,6 +1,7 @@
 const ROLES_LIST = {
-  User: "User",
-  Admin: "Admin",
+  owner: "Owner",
+  admin: "Admin",
+  user: "User",
 };
 
 module.exports = ROLES_LIST;
