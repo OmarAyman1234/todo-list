@@ -9,6 +9,7 @@ import Login from "../pages/Login.jsx";
 import { AuthProvider } from "../context/AuthContext.jsx";
 import { FetchingProvider } from "../context/FetchingContext.jsx";
 import FetchingOverlay from "../components/FetchingOverlay.jsx";
+import { UrlsProvider } from "../context/UrlsContext.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -25,11 +26,13 @@ createRoot(document.getElementById("root")).render(
         style: { backgroundColor: "#333", color: "white" },
       }}
     />
-    <AuthProvider>
-      <FetchingProvider>
-        <FetchingOverlay />
-        <RouterProvider router={router} />
-      </FetchingProvider>
-    </AuthProvider>
+    <UrlsProvider>
+      <AuthProvider>
+        <FetchingProvider>
+          <FetchingOverlay />
+          <RouterProvider router={router} />
+        </FetchingProvider>
+      </AuthProvider>
+    </UrlsProvider>
   </>,
 );
