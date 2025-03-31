@@ -1,5 +1,5 @@
-const { useContext } = require("react");
-const { UrlsContext } = require("../context/UrlsContext");
+import { useContext } from "react";
+import { UrlsContext } from "../context/UrlsContext";
 
 function useUrls() {
   const context = useContext(UrlsContext);
