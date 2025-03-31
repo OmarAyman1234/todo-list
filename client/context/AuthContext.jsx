@@ -4,6 +4,7 @@ export const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [authUser, setAuthUser] = useState(null);
+  const [userRoles, setUserRoles] = useState(["User"]);
 
   const [accessToken, setAccessToken] = useState("");
 
@@ -12,6 +13,8 @@ export function AuthProvider({ children }) {
     setIsLoggedIn,
     authUser,
     setAuthUser,
+    userRoles,
+    setUserRoles,
     accessToken,
     setAccessToken,
   };
