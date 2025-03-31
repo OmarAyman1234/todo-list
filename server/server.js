@@ -51,6 +51,7 @@ app.use(
   verifyJWT,
   require("./routes/api/authUserData.js")
 );
+app.use("/api/users", verifyJWT, require("./routes/api/usersManagement.js"));
 
 app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 app.get("*", (req, res) => {
