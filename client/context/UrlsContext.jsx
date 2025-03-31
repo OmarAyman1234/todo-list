@@ -3,7 +3,7 @@ import { createContext } from "react";
 export const UrlsContext = createContext();
 
 export function UrlsProvider({ children }) {
-  const serverUrl = "https://todo-omar-ay.koyeb.app/";
+  const serverUrl = "https://todo-omar-ay.koyeb.app";
   // const serverUrl = "http://localhost:4444";
 
   const apiBase = "https://todo-omar-ay.koyeb.app/api";
