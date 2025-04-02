@@ -33,7 +33,6 @@ function AdminPanel() {
       }
       const result = await res.json();
       setUsers(result);
-      console.log(result);
     } catch (error) {
       console.error(error.stack);
       toast.error(error.message);
