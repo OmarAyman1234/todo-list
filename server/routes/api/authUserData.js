@@ -13,7 +13,13 @@ router.get("/", async (req, res) => {
     const user = await User.findOne({ _id: userId }).exec();
     if (!user) return res.sendStatus(404);
 
-    return res.json({ username: user.username, roles: user.roles });
+    return res.json({
+      _id: user._id,
+      username: user.username,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      roles: user.roles,
+    });
   } catch (err) {
     console.log(err);
     return res.sendStatus(500);
