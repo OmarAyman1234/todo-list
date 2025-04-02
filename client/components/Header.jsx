@@ -5,16 +5,9 @@ import toast from "react-hot-toast";
 import useFetching from "../hooks/useFetching";
 import useUrls from "../hooks/useUrls";
 import { UserCog2 } from "lucide-react";
+import checkMaxRole from "../utils/checkMaxRole";
 
 function Header() {
-  const {
-    isLoggedIn,
-    authUser,
-    setIsLoggedIn,
-    setAuthUser,
-    userRoles,
-    setUserRoles,
-  } = useAuth();
   const { setIsFetching } = useFetching();
   const auth = useAuth();
 
@@ -35,10 +28,14 @@ function Header() {
         if (res.status !== 403) {
           const data = await res.json();
 
-          console.log(data.roles);
-          setUserRoles(data.roles);
-          setAuthUser(data.username);
-          setIsLoggedIn(true);
+          auth.setAuthUserData({
+            roles: data.roles,
+            _id: data._id,
+            username: data.username,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+          });
+          auth.setIsLoggedIn(true);
         }
       } catch (err) {
         console.error(err);
@@ -72,8 +69,8 @@ function Header() {
           auth,
         );
 
-        setIsLoggedIn(false);
-        setAuthUser(null);
+        auth.setIsLoggedIn(false);
+        auth.setAuthUserData({});
         navigate("/");
       } catch (err) {
         console.error(err);
@@ -84,7 +81,7 @@ function Header() {
   }
 
   function renderAdminPanelIcon() {
-    if (userRoles.includes("Owner") || userRoles.includes("Admin")) {
+    if (checkMaxRole(auth.authUserData.roles) > 1) {
       return (
         <Link to="/adminPanel" className="group relative">
           <UserCog2 className="duration-150 hover:text-gray-300" />
@@ -107,11 +104,11 @@ function Header() {
           </Link>
 
           <div className="flex flex-wrap items-center justify-center gap-3 md:justify-end">
-            {isLoggedIn ? (
+            {auth.isLoggedIn ? (
               <>
                 {renderAdminPanelIcon()}
                 <span className="px-3 font-medium text-indigo-400">
-                  {authUser}
+                  {auth.authUserData.username}
                 </span>
                 <button
                   onClick={handleLogout}
