@@ -65,12 +65,12 @@ function AdminPanel() {
       <Header />
       <div className="container mx-auto px-4 py-6">
         <h1 className="mb-6 text-center text-3xl font-bold text-gray-100">
-          Admin Panel
+          Admin Panel ({users.length} users)
         </h1>
 
         <section className="mb-8">
           <h2 className="mb-4 text-xl font-semibold text-gray-200">
-            Your Account
+            Your Account (1)
           </h2>
           {auth.authUserData.createdAt && auth.authUserData.updatedAt ? (
             <UserCard user={auth.authUserData} isCurrentUser={true} />
@@ -83,21 +83,21 @@ function AdminPanel() {
 
         <section>
           <h2 className="mb-4 text-xl font-semibold text-gray-200">
-            Manage Users
+            Manage Users ({users.length - 1})
           </h2>
           <div className="mb-6 flex flex-col items-center justify-center">
             <div className="relative w-full md:w-4/5">
               <input
                 onChange={(e) => searchUsers(e)}
                 value={searchValue}
-                placeholder="Search users (by username)"
+                placeholder="Search users (by username) CASE SENSITIVE!"
                 className="w-full rounded-lg border border-gray-700 bg-gray-800 p-3 pl-10 text-white placeholder-gray-400 transition-colors focus:border-blue-500 focus:outline-none"
               />
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <Search size={18} className="text-gray-400" />
               </div>
             </div>
-            {searchValue.trim() !== "" && (
+            {searchValue.trim() !== "" && searchResults.length > 0 && (
               <p className="mt-2 text-gray-300">
                 Showing {searchResults.length} result
                 {searchResults.length !== 1 ? "s" : ""} for "{searchValue}"
