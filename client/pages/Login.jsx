@@ -7,7 +7,7 @@ import useUrls from "../hooks/useUrls";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { setAuthUser, setIsLoggedIn, setAccessToken } = useAuth();
+  const { setAuthUserData, setIsLoggedIn, setAccessToken } = useAuth();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const navigate = useNavigate();
   const { serverUrl } = useUrls();
@@ -42,7 +42,13 @@ function Login() {
         }
 
         setIsLoggedIn(true);
-        setAuthUser(data.username);
+        setAuthUserData({
+          username: data.username,
+          _id: data._id,
+          updatedAt: data.updatedAt,
+          createdAt: data.createdAt,
+          roles: data.roles,
+        });
         setAccessToken(data.accessToken);
         navigate("/");
       } catch (err) {
