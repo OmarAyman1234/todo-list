@@ -57,7 +57,14 @@ const handleLogin = async (req, res) => {
     }
     res.cookie("jwt", refreshToken, cookieOptions);
 
-    return res.json({ accessToken });
+    return res.json({
+      accessToken,
+      username: foundUser.username,
+      _id: foundUser._id,
+      roles: foundUser.roles,
+      createdAt: foundUser.createdAt,
+      updatedAt: foundUser.updatedAt,
+    });
   } catch (err) {
     return res.sendStatus(500);
   }
