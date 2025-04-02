@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useFetching from "../hooks/useFetching";
 import useUrls from "../hooks/useUrls";
-import { ShieldUser, User, UserCog2 } from "lucide-react";
+import { UserCog2 } from "lucide-react";
 
 function Header() {
   const {
@@ -83,33 +83,15 @@ function Header() {
     }
   }
 
-  function renderRoleIcon() {
-    if (userRoles.includes("Owner")) {
+  function renderAdminPanelIcon() {
+    if (userRoles.includes("Owner") || userRoles.includes("Admin")) {
       return (
-        <div className="group relative">
-          <ShieldUser />
-          <div className="pointer-events-none absolute -bottom-8 -left-3 rounded bg-gray-500 px-0.5 text-nowrap opacity-0 duration-150 group-hover:opacity-100">
-            Owner
+        <Link to="/adminPanel" className="group relative">
+          <UserCog2 className="duration-150 hover:text-gray-300" />
+          <div className="pointer-events-none absolute -bottom-8 -left-8 hidden rounded bg-gray-500 px-0.5 text-nowrap duration-150 group-hover:block">
+            Admin Panel
           </div>
-        </div>
-      );
-    } else if (userRoles.includes("Admin")) {
-      return (
-        <div className="group relative">
-          <UserCog2 />
-          <div className="pointer-events-none absolute -bottom-8 -left-3 rounded bg-gray-500 px-0.5 text-nowrap opacity-0 duration-150 group-hover:opacity-100">
-            Admin
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="group relative">
-          <User />
-          <div className="pointer-events-none absolute -bottom-8 -left-1 rounded bg-gray-500 px-0.5 text-nowrap opacity-0 duration-150 group-hover:opacity-100">
-            User
-          </div>
-        </div>
+        </Link>
       );
     }
   }
@@ -124,7 +106,7 @@ function Header() {
           <div className="flex flex-wrap items-center justify-center gap-3 md:justify-end">
             {isLoggedIn ? (
               <>
-                {renderRoleIcon()}
+                {renderAdminPanelIcon()}
                 <span className="px-3 font-medium text-indigo-400">
                   {authUser}
                 </span>
