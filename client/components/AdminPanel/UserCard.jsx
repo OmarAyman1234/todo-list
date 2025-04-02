@@ -48,8 +48,10 @@ function UserCard({ user, isCurrentUser }) {
 
         <div className="mt-4 flex flex-col justify-center gap-2 md:mt-0 md:ml-6 md:w-40">
           {(isCurrentUser ||
-            checkMaxRole(auth.authUserData.roles) >=
-              checkMaxRole(user.roles)) && (
+            (user?.roles &&
+              auth?.authUserData?.roles &&
+              checkMaxRole(auth.authUserData.roles) >=
+                checkMaxRole(user.roles))) && (
             <>
               <button
                 className="flex w-full cursor-pointer items-center justify-center rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-700"

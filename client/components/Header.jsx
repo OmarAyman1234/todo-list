@@ -61,6 +61,9 @@ function Header() {
     });
     async function processLogout() {
       try {
+        setIsFetching(true);
+        auth.setIsLoggedIn(false);
+        auth.setAuthUserData({});
         await fetchWithAuth(
           serverUrl + "/logout",
           {
@@ -68,13 +71,16 @@ function Header() {
           },
           auth,
         );
-
-        auth.setIsLoggedIn(false);
-        auth.setAuthUserData({});
-        navigate("/");
+        if (location.pathname === "/") {
+          navigate("/");
+        } else {
+          //Force refresh the page if not at the main to delete any remaining tokens.
+          location.href = "/";
+        }
       } catch (err) {
         console.error(err);
       } finally {
+        setIsFetching(false);
         setIsLoggingOut(false);
       }
     }
