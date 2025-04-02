@@ -99,9 +99,12 @@ function Header() {
     <header className="bg-gray-800 shadow-md">
       <div className="container mx-auto px-4 py-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-          <h1 className="mb-4 text-center text-3xl font-extrabold text-purple-400 md:mb-0 md:text-left">
+          <Link
+            to="/"
+            className="mb-4 text-center text-3xl font-extrabold text-purple-400 md:mb-0 md:text-left"
+          >
             To<span className="text-blue-400">Do</span> List
-          </h1>
+          </Link>
 
           <div className="flex flex-wrap items-center justify-center gap-3 md:justify-end">
             {isLoggedIn ? (
